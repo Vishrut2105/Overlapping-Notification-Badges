@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overlapping Notification Badges</title>
+  <meta name="description" content="Minimal, aesthetic overlapping notification badges with cutout masking, built with vanilla HTML, CSS, and JavaScript.">
+
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    
+    <!-- Minimalist Header -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <span class="status-indicator"></span>
+        <span class="brand-name">badge.vibe</span>
+        <span class="brand-tag">vanilla</span>
+      </div>
+
+      <div class="nav-actions">
+        <button id="soundBtn" class="pill-btn icon-only" title="Toggle audio feedback" aria-label="Toggle Sound">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button id="themeBtn" class="pill-btn icon-only" title="Toggle theme" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button id="simBtn" class="pill-btn live-btn">
+          <span class="pulse-dot"></span>
+          <span>Live Sim</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="content-container">
+      <!-- Punchy Hero -->
+      <section class="hero-header">
+        <div class="hero-chip">
+          <i class="fa-solid fa-sparkles"></i>
+          <span>css cutout notch mask &bull; zero frameworks</span>
+        </div>
+        <h1 class="hero-title">Overlapping Notification Badges</h1>
+        <p class="hero-desc">
+          Clean, aesthetic notification badges that seamlessly overlap avatars, icons, and cards with background-matched cutout notches.
+        </p>
+      </section>
+
+      <!-- Centerpiece: Live Interactive Playground -->
+      <section class="playground-section">
+        <div class="playground-card">
+          <!-- Canvas Topbar -->
+          <div class="card-bar">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="card-bar-title">interactive_badge_canvas</div>
+            <div class="target-switch" id="targetTypeSwitch">
+              <button class="target-tab active" data-type="avatar">Avatar</button>
+              <button class="target-tab" data-type="bell">Bell</button>
+              <button class="target-tab" data-type="chat">Chat</button>
+            </div>
+          </div>
+
+          <!-- Preview Area -->
+          <div class="preview-stage">
+            <div class="preview-target" id="previewTarget">
+              <!-- Avatar Display -->
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80" alt="Avatar" class="avatar-img" id="targetAvatar">
+              
+              <!-- Icon Display (hidden initially) -->
+              <div class="icon-display" id="targetIcon" style="display: none;">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+
+              <!-- Primary Overlapping Badge -->
+              <div class="badge badge-top-right color-crimson cutout" id="primaryBadge">
+                <span id="badgeCountText">5</span>
+                <span class="ping-ring" id="badgePing"></span>
+              </div>
+
+              <!-- Secondary Overlapping Status Dot -->
+              <div class="status-dot status-online cutout" id="secondaryBadge"></div>
+            </div>
+
+            <div class="preview-hint" id="previewHint">
+              5 unread notifications &bull; online
+            </div>
+          </div>
+
+          <!-- Minimal Control Strip -->
+          <div class="controls-grid">
+            <!-- Counter Stepper -->
+            <div class="control-box">
+              <span class="control-label">Count</span>
+              <div class="stepper-wrap">
+                <button class="step-btn" id="decBtn"><i class="fa-solid fa-minus"></i></button>
+                <span class="step-val" id="countDisplay">5</span>
+                <button class="step-btn" id="incBtn"><i class="fa-solid fa-plus"></i></button>
+              </div>
+            </div>
+
+            <!-- Position Selector -->
+            <div class="control-box">
+              <span class="control-label">Position</span>
+              <div class="segmented-control" id="positionControl">
+                <button class="seg-btn active" data-pos="top-right">TR</button>
+                <button class="seg-btn" data-pos="top-left">TL</button>
+                <button class="seg-btn" data-pos="bottom-right">BR</button>
+                <button class="seg-btn" data-pos="bottom-left">BL</button>
+              </div>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="control-box">
+              <span class="control-label">Theme</span>
+              <div class="color-row" id="colorPicker">
+                <button class="color-btn c-crimson active" data-color="crimson" title="Crimson"></button>
+                <button class="color-btn c-violet" data-color="violet" title="Violet"></button>
+                <button class="color-btn c-emerald" data-color="emerald" title="Emerald"></button>
+                <button class="color-btn c-amber" data-color="amber" title="Amber"></button>
+                <button class="color-btn c-cyan" data-color="cyan" title="Cyan"></button>
+              </div>
+            </div>
+
+            <!-- Toggles (Cutout & Pulse) -->
+            <div class="control-box toggles-box">
+              <label class="toggle-label">
+                <input type="checkbox" id="cutoutToggle" checked>
+                <span>Cutout Notch</span>
+              </label>
+              <label class="toggle-label">
+                <input type="checkbox" id="pulseToggle" checked>
+                <span>Radar Ping</span>
+              </label>
+              <label class="toggle-label">
+                <input type="checkbox" id="secondaryToggle" checked>
+                <span>Presence Dot</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Minimal Showcase Grid -->
+      <section class="showcase-section">
+        <div class="section-title-wrap">
+          <span class="sub-label">// patterns</span>
+          <h2 class="sub-heading">Common Implementations</h2>
+        </div>
+
+        <div class="patterns-grid">
+          <!-- 1. Dual Overlap Avatar -->
+          <div class="pattern-item">
+            <div class="pattern-demo-box">
+              <div class="avatar-holder">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80" alt="Sarah">
+                <span class="badge badge-top-right color-crimson cutout">12</span>
+                <span class="status-dot status-online cutout"></span>
+              </div>
+            </div>
+            <div class="pattern-info">
+              <h4>Dual Overlap Avatar</h4>
+              <p>Unread count on top-right, online status on bottom-right.</p>
+            </div>
+          </div>
+
+          <!-- 2. Overlapping Avatar Cluster (Facepile) -->
+          <div class="pattern-item">
+            <div class="pattern-demo-box">
+              <div class="facepile">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="User 1" class="fp-avatar">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="User 2" class="fp-avatar">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="User 3" class="fp-avatar">
+                <div class="fp-overflow">+4</div>
+              </div>
+            </div>
+            <div class="pattern-info">
+              <h4>Stacked Facepile</h4>
+              <p>Avatars overlapping via negative margins with cutout ring.</p>
+            </div>
+          </div>
+
+          <!-- 3. Icon Bell with Ping Dot -->
+          <div class="pattern-item">
+            <div class="pattern-demo-box">
+              <div class="icon-holder">
+                <i class="fa-solid fa-bell"></i>
+                <span class="badge-dot color-crimson cutout"></span>
+                <span class="ping-ring ping-dot"></span>
+              </div>
+            </div>
+            <div class="pattern-info">
+              <h4>Alert Bell Dot</h4>
+              <p>Clean numeric-less indicator dot with pulsing radar wave.</p>
+            </div>
+          </div>
+
+          <!-- 4. Interactive Notification Toast -->
+          <div class="pattern-item toast-pattern-item">
+            <div class="pattern-demo-box">
+              <div class="mini-toast" id="miniToast">
+                <div class="toast-avatar-wrap">
+                  <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Elena">
+                  <span class="status-dot status-online cutout"></span>
+                </div>
+                <div class="toast-text">
+                  <strong>Elena Vance</strong>
+                  <span>"Pushed commit to main"</span>
+                </div>
+                <span class="badge badge-color-violet cutout badge-sm">NEW</span>
+              </div>
+            </div>
+            <div class="pattern-info">
+              <h4>Card with Overlap</h4>
+              <p>Compact toast notification with embedded overlapping avatar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Minimal Code Block -->
+      <section class="code-section">
+        <div class="section-title-wrap">
+          <span class="sub-label">// copy_paste</span>
+          <h2 class="sub-heading">The 10-Line CSS Cutout Secret</h2>
+        </div>
+
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-filename">badge-cutout.css</span>
+            <button id="copyCodeBtn" class="copy-btn">
+              <i class="fa-regular fa-clone"></i> Copy CSS
+            </button>
+          </div>
+          <pre><code><span class="c-comment">/* 1. Host container must be relative */</span>
+<span class="c-selector">.avatar-wrap</span> {
+  <span class="c-prop">position</span>: relative;
+  <span class="c-prop">display</span>: inline-flex;
+}
+
+<span class="c-comment">/* 2. Absolute badge with 35% corner offset */</span>
+<span class="c-selector">.badge</span> {
+  <span class="c-prop">position</span>: absolute;
+  <span class="c-prop">top</span>: 0;
+  <span class="c-prop">right</span>: 0;
+  <span class="c-prop">transform</span>: translate(35%, -35%);
+  <span class="c-prop">border-radius</span>: 9999px;
+  <span class="c-prop">background</span>: #ef4444;
+  <span class="c-prop">color</span>: #ffffff;
+  <span class="c-prop">padding</span>: 2px 6px;
+  <span class="c-prop">font-size</span>: 11px;
+  <span class="c-prop">font-weight</span>: 700;
+
+  <span class="c-comment">/* 3. The Cutout Magic: border matches parent bg */</span>
+  <span class="c-prop">border</span>: 2px solid var(--bg-card);
+  <span class="c-prop">box-sizing</span>: content-box;
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="app-footer">
+      <div class="footer-inner">
+        <span>overlapping notification badges &bull; vibecoded with vanilla js/css</span>
+        <span class="footer-dim">0 dependencies &bull; 60fps</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast notification container -->
+  <div id="toastContainer" class="toast-shelf" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
