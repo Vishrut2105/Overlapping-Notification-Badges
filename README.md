@@ -1,4 +1,4 @@
-# Overlapping Notification Badges — 
+# Overlapping Notification Badges 
 
 A minimalist, aesthetic, zero-dependency component showcase for **Overlapping Notification Badges** built with vanilla **HTML5**, **CSS3**, and **JavaScript**.
 
