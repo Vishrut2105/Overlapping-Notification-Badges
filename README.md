@@ -1,4 +1,4 @@
-# Overlapping Notification Badges —  Edition
+# Overlapping Notification Badges — 
 
 A minimalist, aesthetic, zero-dependency component showcase for **Overlapping Notification Badges** built with vanilla **HTML5**, **CSS3**, and **JavaScript**.
 
@@ -7,7 +7,7 @@ A minimalist, aesthetic, zero-dependency component showcase for **Overlapping No
 
 ---
 
-## 📐 The 10-Line CSS Cutout Secret
+##  The 10-Line CSS Cutout Secret
 
 The core technique relies on positioning the badge over the corner and applying a background-matching border to create a cutout notch effect:
 
@@ -39,7 +39,7 @@ The core technique relies on positioning the badge over the corner and applying 
 
 ---
 
-## 🕹️ Interactive Features
+##  Interactive Features
 
 1. **Canvas Playground**:
    - Host selector: **Avatar**, **Bell**, **Chat**.
@@ -57,6 +57,6 @@ The core technique relies on positioning the badge over the corner and applying 
 
 ---
 
-## 🚀 Running the Project
+##  Running the Project
 
 Open [index.html](file:///d:/Personal/bansi%20WD%20project/index.html) in your browser. No build steps or package managers required.
